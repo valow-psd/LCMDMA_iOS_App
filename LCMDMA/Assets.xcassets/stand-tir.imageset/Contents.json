@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "compagnie-briselame-2018-10-04_-_entrainement_archerie-2.jpg__1920x1080_q85_subsampling-2.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
