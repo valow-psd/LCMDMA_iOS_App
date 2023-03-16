@@ -11,12 +11,19 @@ import EventKit
 
 class ViewController: DayViewController {
     
+    var datesList: [DateList] = DateList.listeDates
+    
     private let eventStore = EKEventStore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Calendar"
+        
+        let dateFormatter = ISO8601DateFormatter()
+        let eventDate = "2023-07-8T10:00:00+0000"
+        move(to: dateFormatter.date(from: eventDate)!)
+        
         requestAccessToCalendar()
     }
     
@@ -36,25 +43,23 @@ class ViewController: DayViewController {
 
     
     override func eventsForDate(_ date: Date) -> [EventDescriptor] {
-        let startDate = date
-        var oneDayComponents = DateComponents()
-        oneDayComponents.day = 1
+
         
-        let endDate = calendar.date(byAdding: oneDayComponents, to: startDate)!
-        
-        let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: nil)
-        
-        let eventKitEvents = eventStore.events(matching: predicate)
-        
-        let calendarKitEvents = eventKitEvents.map { ekEvent in
+        let calendarKitEvents = datesList.map { date in
             let ckEvent = Event()
-            /*ckEvent.startDate = ekEvent.startDate  //C'est ici que ça merde
-            ckEvent.endDate = ekEvent.endDate*/
-            ckEvent.isAllDay = ekEvent.isAllDay
-            ckEvent.text =  ekEvent.title
-            if let eventColor = ekEvent.calendar.cgColor {
+            
+            let dateFormatter = ISO8601DateFormatter()
+            
+            ckEvent.dateInterval.start = dateFormatter.date(from: date.start)!
+            ckEvent.dateInterval.end = dateFormatter.date(from: date.end)!
+            ckEvent.isAllDay = (0 != 0)
+            ckEvent.text = date.text
+            ckEvent.color = UIColor.blue
+            
+            
+            /*if let eventColor = ekEvent.calendar.cgColor {
                 ckEvent.color = UIColor(cgColor: eventColor)
-            }
+            }*/
             return ckEvent
         }
         return calendarKitEvents
