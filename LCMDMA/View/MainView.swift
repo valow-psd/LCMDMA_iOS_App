@@ -12,6 +12,9 @@ struct ContentView: View {
         UITabBar.appearance().backgroundColor = UIColor.black
         UITabBar.appearance().unselectedItemTintColor = UIColor.darkGray
     }
+    
+    @StateObject private var vm = LocationsViewModel()
+
     var body: some View {
         TabView {
             HomeView(data: Activites.listeActivites)
@@ -23,7 +26,8 @@ struct ContentView: View {
                 .tabItem {
                     Label("Prestataires", systemImage: "person.3.fill")
                 }
-            CarteView()
+            LocationsView()
+                .environmentObject(vm)
                 .tabItem {
                     Label("Carte", systemImage: "map.fill")
                 }
